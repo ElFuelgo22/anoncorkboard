@@ -17,11 +17,5 @@
       "dest": "/api/index.js",
       "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/static/(.*)",
-      "destination": "/public/$1"
-    }
   ]
 }
