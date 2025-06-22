@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunset Corkboard - Share Your Thoughts</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Background overlay -->
+    <div class="background-overlay"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <i class="fas fa-thumbtack"></i>
+                Sunset Corkboard
+            </h1>
+            <nav class="nav">
+                <button id="add-pin-btn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Add Pin
+                </button>
+                <a href="/admin" class="btn btn-secondary">
+                    <i class="fas fa-cog"></i>
+                    Admin
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Search Bar -->
+            <div class="search-section">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search pins..." />
+                    <button id="clear-search" class="clear-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="stats">
+                    <span id="pin-count">0 pins</span>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading" class="loading">
+                <div class="sunset-spinner"></div>
+                <p>Loading beautiful memories...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="error-state" class="error-state" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Database Setup Required</h3>
+                <p id="error-message">Your corkboard needs to be set up first.</p>
+                <a href="/setup" class="btn btn-primary">Complete Setup</a>
+                <button id="retry-btn" class="btn btn-secondary">Try Again</button>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <i class="fas fa-thumbtack"></i>
+                <h3>No pins yet</h3>
+                <p>Be the first to share a beautiful memory on our sunset corkboard!</p>
+                <button id="empty-add-pin" class="btn btn-primary">Add First Pin</button>
+            </div>
+
+            <!-- Pins Grid -->
+            <div id="pins-grid" class="pins-grid">
+                <!-- Pins will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Pin Modal -->
+    <div id="pin-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Add New Pin</h2>
+                <button class="close-btn" id="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="pin-form" class="pin-form">
+                <div class="form-group">
+                    <label for="pin-title">Title</label>
+                    <input type="text" id="pin-title" name="title" required maxlength="100" 
+                           placeholder="What's on your mind?">
+                    <span class="char-count">0/100</span>
+                </div>
+                <div class="form-group">
+                    <label for="pin-content">Content</label>
+                    <textarea id="pin-content" name="content" required maxlength="500" 
+                              placeholder="Share your thoughts, dreams, or memories..."></textarea>
+                    <span class="char-count">0/500</span>
+                </div>
+                <div class="form-group">
+                    <label for="pin-author">Your Name (optional)</label>
+                    <input type="text" id="pin-author" name="author" maxlength="50" 
+                           placeholder="Anonymous">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submit-btn">
+                        <i class="fas fa-thumbtack"></i>
+                        Pin It
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/supabase-client.js"></script>
+    <script type="module" src="js/pin-manager.js"></script>
+    <script type="module" src="js/ui-manager.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,480 @@
+/* Admin-specific styles extending the main stylesheet */
+
+/* Login Screen */
+.login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-card {
+    background: linear-gradient(135deg, var(--sunset-pink), var(--sunset-yellow));
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-xl);
+    text-align: center;
+}
+
+.login-header {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.login-header i {
+    font-size: 3rem;
+    color: var(--sunset-orange);
+    margin-bottom: var(--spacing-md);
+    display: block;
+}
+
+.login-header h1 {
+    font-size: var(--font-size-2xl);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.login-header p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+}
+
+.login-form {
+    text-align: left;
+}
+
+.login-form .form-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.btn-full {
+    width: 100%;
+    justify-content: center;
+}
+
+.error-message {
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.login-footer {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.back-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--text-primary);
+}
+
+/* Admin Dashboard */
+.admin-dashboard {
+    min-height: 100vh;
+}
+
+.admin-header {
+    background: linear-gradient(135deg, var(--sunset-purple), var(--sunset-deep-purple));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: var(--spacing-lg) 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.admin-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-logo {
+    font-size: var(--font-size-2xl);
+    font-weight: bold;
+    color: var(--text-light);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.admin-logo i {
+    color: var(--sunset-yellow);
+    margin-right: var(--spacing-sm);
+}
+
+.admin-nav {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: center;
+}
+
+.welcome-text {
+    color: var(--text-light);
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-text span {
+    color: var(--sunset-yellow);
+}
+
+/* Admin Main Content */
+.admin-main {
+    padding: var(--spacing-2xl) 0;
+}
+
+/* Stats Section */
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.stat-card {
+    background: var(--surface);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--sunset-orange), var(--sunset-coral));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: var(--font-size-xl);
+}
+
+.stat-info h3 {
+    font-size: var(--font-size-2xl);
+    font-weight: bold;
+    color: var(--text-light);
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.stat-info p {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: var(--font-size-sm);
+}
+
+/* Controls Section */
+.controls-section {
+    background: var(--surface);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+    box-shadow: var(--shadow-lg);
+}
+
+.search-controls {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    align-items: center;
+}
+
+.search-controls .search-bar {
+    flex: 1;
+    max-width: 400px;
+}
+
+.filter-controls select {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.9);
+    font-size: var(--font-size-base);
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.bulk-controls {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.btn-danger-outline {
+    background: transparent;
+    border: 2px solid var(--danger);
+    color: var(--danger);
+}
+
+.btn-danger-outline:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* Pins Management */
+.pins-management {
+    background: var(--surface);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.admin-pins-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* Admin Pin Item */
+.admin-pin-item {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.admin-pin-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.admin-pin-item.selected {
+    border-color: var(--sunset-orange);
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 133, 102, 0.1));
+}
+
+.admin-pin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+}
+
+.admin-pin-info {
+    flex: 1;
+}
+
+.admin-pin-title {
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-xs) 0;
+}
+
+.admin-pin-meta {
+    display: flex;
+    gap: var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.admin-pin-author,
+.admin-pin-date {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.admin-pin-controls {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: flex-start;
+}
+
+.admin-pin-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--sunset-orange);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    position: relative;
+    background: white;
+}
+
+.admin-pin-checkbox input {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+}
+
+.admin-pin-checkbox i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--sunset-orange);
+    font-size: var(--font-size-sm);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.admin-pin-checkbox input:checked + i {
+    opacity: 1;
+}
+
+.admin-pin-content {
+    margin-bottom: var(--spacing-md);
+    color: var(--text-secondary);
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.admin-pin-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-end;
+}
+
+.admin-pin-actions .btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+}
+
+/* Confirmation Modal */
+.modal-body {
+    padding: var(--spacing-lg);
+}
+
+.modal-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: flex-end;
+    padding: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Design for Admin */
+@media (max-width: 768px) {
+    .admin-header .container {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .admin-nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .stats-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .search-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-controls .search-bar {
+        max-width: none;
+    }
+    
+    .bulk-controls {
+        justify-content: center;
+    }
+    
+    .admin-pin-header {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .admin-pin-controls {
+        align-self: flex-end;
+    }
+    
+    .admin-pin-meta {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .admin-pin-actions {
+        justify-content: center;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: var(--spacing-lg);
+    }
+    
+    .admin-logo {
+        font-size: var(--font-size-xl);
+    }
+    
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-md);
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .bulk-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .bulk-controls .btn {
+        justify-content: center;
+    }
+}
+
+/* Dark mode adjustments for admin */
+@media (prefers-color-scheme: dark) {
+    .admin-pin-item {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+        color: var(--text-light);
+    }
+    
+    .admin-pin-title {
+        color: var(--text-light);
+    }
+    
+    .admin-pin-checkbox {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--sunset-orange);
+    }
+}
