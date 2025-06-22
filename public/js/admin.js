@@ -444,7 +444,7 @@ class AdminManager {
                     <div class="admin-pin-meta">
                         <span class="admin-pin-author">
                             <i class="fas fa-user"></i>
-                            RP: ${this.escapeHtml(pin.rp_name)} | Main ${pin.main_number} | Nick: ${this.escapeHtml(pin.nickname || 'Anonymous')}
+                            RP: ${this.escapeHtml(pin.rp_name)} | ${pin.main_number === 5 ? 'Council' : `Main ${pin.main_number}`} | Nick: ${this.escapeHtml(pin.nickname || 'Anonymous')}
                         </span>
                         <span class="admin-pin-date">
                             <i class="fas fa-calendar"></i>

@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS pins (
     author_id VARCHAR(100) NOT NULL,
     -- RP fields (admin only)
     rp_name VARCHAR(30) NOT NULL CHECK (char_length(rp_name) > 0 AND char_length(rp_name) <= 30),
-    main_number INTEGER NOT NULL CHECK (main_number IN (1, 2, 3, 4)),
+    main_number INTEGER NOT NULL CHECK (main_number IN (1, 2, 3, 4, 5)),
     -- Public nickname (visible to everyone)
     nickname VARCHAR(30) DEFAULT 'Anonymous' CHECK (char_length(nickname) <= 30),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),

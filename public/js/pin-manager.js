@@ -91,7 +91,8 @@ class PinManager {
             this.emit('pinsUpdated', this.filteredPins);
             
             return newPin;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to create pin:', error);
             this.emit('error', error);
             throw error;
@@ -331,8 +332,8 @@ class PinManager {
             throw new Error('RP name must be 30 characters or less');
         }
         
-        if (!data.main_number || ![1, 2, 3, 4].includes(data.main_number)) {
-            throw new Error('Valid main selection (1-4) is required');
+        if (!data.main_number || ![1, 2, 3, 4, 5].includes(data.main_number)) {
+            throw new Error('Valid main selection (1-4 + Council) is required');
         }
         
         if (data.nickname && data.nickname.length > 30) {

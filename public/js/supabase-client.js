@@ -132,38 +132,38 @@ class SupabaseClient {
     /**
      * Create a new pin
      */
-    async createPin(pinData) {
-        this.ensureInitialized();
+async createPin(pinData) {
+    this.ensureInitialized();
+    
+    try {
+        const pin = {
+            title: pinData.title.trim(),
+            content: pinData.content.trim(),
+            nickname: pinData.nickname ? pinData.nickname.trim() : 'Anonymous',
+            rp_name: pinData.rp_name.trim(),
+            main_number: String(pinData.main_number), // Ensure main_number is a string
+            author_id: this.generateAuthorId(),
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+        };
         
-        try {
-            const pin = {
-                title: pinData.title.trim(),
-                content: pinData.content.trim(),
-                nickname: pinData.nickname ? pinData.nickname.trim() : 'Anonymous',
-                rp_name: pinData.rp_name.trim(),
-                main_number: pinData.main_number,
-                author_id: this.generateAuthorId(),
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString()
-            };
-            
-            const { data, error } = await this.supabase
-                .from('pins')
-                .insert([pin])
-                .select()
-                .single();
-            
-            if (error) {
-                throw error;
-            }
-            
-            console.log('✅ Pin created successfully:', data.id);
-            return data;
-        } catch (error) {
-            console.error('❌ Failed to create pin:', error);
-            throw new Error(`Failed to create pin: ${error.message}`);
+        const { data, error } = await this.supabase
+            .from('pins')
+            .insert([pin])
+            .select()
+            .single();
+        
+        if (error) {
+            throw error;
         }
+        
+        console.log('✅ Pin created successfully:', data.id);
+        return data;
+    } catch (error) {
+        console.error('❌ Failed to create pin:', error);
+        throw new Error(`Failed to create pin: ${error.message}`);
     }
+}
 
     /**
      * Update a pin
@@ -298,7 +298,8 @@ class SupabaseClient {
             
             console.log('✅ All pins deleted successfully');
             return true;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete all pins:', error);
             throw new Error(`Failed to delete all pins: ${error.message}`);
         }
