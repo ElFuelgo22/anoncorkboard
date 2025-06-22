@@ -366,12 +366,18 @@ class PinManager {
      * Handle pin insertion from real-time update
      */
     handlePinInserted(newPin) {
-        // Check if pin already exists (avoid duplicates)
-        const existingIndex = this.pins.findIndex(pin => pin.id === newPin.id);
-        if (existingIndex === -1) {
-            this.pins.unshift(newPin);
-            this.applyFilters();
-            this.emit('pinsUpdated', this.filteredPins);
+        try {
+            // Check if pin already exists (avoid duplicates)
+            const existingIndex = this.pins.findIndex(pin => pin.id === newPin.id);
+            if (existingIndex === -1) {
+                this.pins.unshift(newPin);
+                this.applyFilters();
+                this.emit('pinsUpdated', this.filteredPins);
+            }
+        } 
+        catch (error) {
+            console.error('❌ Failed to handle pin insertion:', error);
+            this.emit('error', error);
         }
     }
 
@@ -379,11 +385,17 @@ class PinManager {
      * Handle pin update from real-time update
      */
     handlePinUpdated(updatedPin) {
-        const index = this.pins.findIndex(pin => pin.id === updatedPin.id);
-        if (index !== -1) {
-            this.pins[index] = updatedPin;
-            this.applyFilters();
-            this.emit('pinsUpdated', this.filteredPins);
+        try {
+            const index = this.pins.findIndex(pin => pin.id === updatedPin.id);
+            if (index !== -1) {
+                this.pins[index] = updatedPin;
+                this.applyFilters();
+                this.emit('pinsUpdated', this.filteredPins);
+            }
+        } 
+        catch (error) {
+            console.error('❌ Failed to handle pin update:', error);
+            this.emit('error', error);
         }
     }
 
@@ -402,7 +414,8 @@ class PinManager {
     async getStats() {
         try {
             return await supabaseClient.getPinStats();
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to get pin statistics:', error);
             this.emit('error', error);
             throw error;

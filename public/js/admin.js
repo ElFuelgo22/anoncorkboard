@@ -332,7 +332,8 @@ class AdminManager {
             this.allPins = pins;
             this.applyFiltersAndSort();
             this.renderPins();
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to load pins:', error);
             throw error;
         }
@@ -345,7 +346,8 @@ class AdminManager {
         try {
             this.stats = await supabaseClient.getPinStats();
             this.updateStatsDisplay();
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to load statistics:', error);
             // Use fallback stats
             this.stats = {
@@ -361,16 +363,31 @@ class AdminManager {
      * Update statistics display
      */
     updateStatsDisplay() {
-        if (this.elements.totalPins) {
-            this.elements.totalPins.textContent = this.stats.totalPins.toString();
+        try {
+            if (this.elements.totalPins) {
+                this.elements.totalPins.textContent = this.stats.totalPins.toString();
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error updating total pins display:', error);
         }
         
-        if (this.elements.todayPins) {
-            this.elements.todayPins.textContent = this.stats.todayPins.toString();
+        try {
+            if (this.elements.todayPins) {
+                this.elements.todayPins.textContent = this.stats.todayPins.toString();
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error updating today pins display:', error);
         }
         
-        if (this.elements.uniqueAuthors) {
-            this.elements.uniqueAuthors.textContent = this.stats.uniqueAuthors.toString();
+        try {
+            if (this.elements.uniqueAuthors) {
+                this.elements.uniqueAuthors.textContent = this.stats.uniqueAuthors.toString();
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error updating unique authors display:', error);
         }
     }
 
@@ -509,7 +526,8 @@ class AdminManager {
     togglePinSelection(pinId, selected) {
         if (selected) {
             this.selectedPins.add(pinId);
-        } else {
+        } 
+        else {
             this.selectedPins.delete(pinId);
         }
         
@@ -653,7 +671,8 @@ class AdminManager {
             await this.loadStatistics();
             
             this.showToast('Pin deleted successfully', 'success');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete pin:', error);
             this.showToast('Failed to delete pin', 'error');
         }
@@ -676,7 +695,8 @@ class AdminManager {
             await this.loadStatistics();
             
             this.showToast(`${pinIds.length} pins deleted successfully`, 'success');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete pins:', error);
             this.showToast('Failed to delete selected pins', 'error');
         }
@@ -698,7 +718,8 @@ class AdminManager {
             await this.loadStatistics();
             
             this.showToast('All pins deleted successfully', 'success');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete all pins:', error);
             this.showToast('Failed to delete all pins', 'error');
         }
@@ -752,7 +773,8 @@ class AdminManager {
             try {
                 await this.pendingConfirmAction();
                 this.hideConfirmModal();
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error('❌ Error executing confirmed action:', error);
                 this.showToast(error.message || 'Action failed', 'error');
                 this.hideConfirmModal();
@@ -768,7 +790,8 @@ class AdminManager {
             this.subscription = supabaseClient.subscribeToPins((payload) => {
                 this.handleRealTimeUpdate(payload);
             });
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to setup real-time subscription:', error);
         }
     }

@@ -7,7 +7,7 @@ import supabaseClient from './supabase-client.js';
 import pinManager from './pin-manager.js';
 import uiManager from './ui-manager.js';
 
-class SunsetCorkboardApp {
+class maincorkboard {
     constructor() {
         this.initialized = false;
         this.retryCount = 0;
@@ -59,7 +59,8 @@ class SunsetCorkboardApp {
             this.showWelcomeMessage();
             
             return true;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to initialize application:', error);
             this.handleInitializationError(error);
             throw error;
@@ -74,7 +75,8 @@ class SunsetCorkboardApp {
             console.log('🎨 Initializing UI...');
             uiManager.initialize();
             console.log('✅ UI Manager ready');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ UI Manager initialization failed:', error);
             throw new Error(`UI initialization failed: ${error.message}`);
         }
@@ -88,7 +90,8 @@ class SunsetCorkboardApp {
             console.log('📌 Initializing Pin Manager...');
             await pinManager.initialize();
             console.log('✅ Pin Manager ready');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Pin Manager initialization failed:', error);
             throw new Error(`Pin Manager initialization failed: ${error.message}`);
         }
@@ -196,7 +199,8 @@ class SunsetCorkboardApp {
             setTimeout(() => {
                 this.retryInitialization();
             }, 2000);
-        } else {
+        } 
+        else {
             console.error('🚨 Max retry attempts exceeded');
             uiManager.showToast('Failed to initialize application. Please refresh the page.', 'error', 10000);
         }
@@ -221,7 +225,8 @@ class SunsetCorkboardApp {
             this.retryCount = 0;
             
             uiManager.showToast('Application initialized successfully!', 'success');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error(`❌ Retry attempt ${this.retryCount} failed:`, error);
             this.handleInitializationError(error);
         }
@@ -242,7 +247,8 @@ class SunsetCorkboardApp {
                 await pinManager.loadPins();
                 localStorage.setItem('sunset_corkboard_last_update', now.toString());
             }
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to refresh data on page visible:', error);
         }
     }
@@ -256,7 +262,8 @@ class SunsetCorkboardApp {
         try {
             console.log('🔄 Refreshing data after connection restored...');
             await pinManager.loadPins();
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to refresh data after connection restored:', error);
         }
     }
@@ -270,7 +277,7 @@ class SunsetCorkboardApp {
         if (!hasVisited) {
             setTimeout(() => {
                 uiManager.showToast(
-                    'Welcome to Sunset Corkboard! Share your thoughts and memories with the world.',
+                    'Welcome to our anon corkboard! Happy 2nd Monthsary! 🎉\n\n' +
                     'info',
                     6000
                 );
@@ -311,7 +318,8 @@ class SunsetCorkboardApp {
             }
             
             console.log('✅ Application cleanup complete');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Error during cleanup:', error);
         }
     }
@@ -337,7 +345,7 @@ class SunsetCorkboardApp {
 }
 
 // Create application instance
-const app = new SunsetCorkboardApp();
+const app = new maincorkboard();
 
 // Initialize application when DOM is ready
 if (document.readyState === 'loading') {
@@ -346,7 +354,8 @@ if (document.readyState === 'loading') {
             console.error('❌ Failed to start application:', error);
         });
     });
-} else {
+} 
+else {
     app.initialize().catch(error => {
         console.error('❌ Failed to start application:', error);
     });
