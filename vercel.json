@@ -10,12 +10,18 @@
     {
       "src": "/api/(.*)",
       "dest": "/api/index.js",
-      "methods": ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
+      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     },
     {
       "src": "/(.*)",
       "dest": "/api/index.js",
-      "methods": ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
+      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/static/(.*)",
+      "destination": "/public/$1"
     }
   ]
 }
