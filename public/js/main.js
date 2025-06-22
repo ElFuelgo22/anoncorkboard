@@ -1,8 +1,3 @@
-/**
- * Main Application Entry Point
- * Coordinates all modules and handles application lifecycle
- */
-
 import supabaseClient from './supabase-client.js';
 import pinManager from './pin-manager.js';
 import uiManager from './ui-manager.js';
@@ -278,7 +273,7 @@ class maincorkboard {
             setTimeout(() => {
                 uiManager.showToast(
                     'Welcome to our anon corkboard! Happy 2nd Monthsary! 🎉\n\n' +
-                    'info',
+                    'Have a great time!',
                     6000
                 );
                 
