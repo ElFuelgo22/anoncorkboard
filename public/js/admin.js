@@ -1,8 +1,3 @@
-/**
- * Admin Dashboard Module
- * Handles admin authentication, pin management, and bulk operations
- */
-
 import supabaseClient from './supabase-client.js';
 
 class AdminManager {
@@ -30,20 +25,21 @@ class AdminManager {
         try {
             console.log('👑 Initializing Admin Dashboard...');
             
-            // Initialize Supabase client
+            // supabase client initializations
             await supabaseClient.initialize();
             
-            // Cache DOM elements
+            // dom element caching
             this.cacheElements();
             
-            // Check if already authenticated
+            // checks if everything is authenticated already
             this.checkAuthStatus();
             
             // Setup event listeners
             this.setupEventListeners();
             
             console.log('✅ Admin Dashboard initialized');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to initialize Admin Dashboard:', error);
             this.showToast('Failed to initialize admin dashboard', 'error');
         }
@@ -98,21 +94,29 @@ class AdminManager {
     }
 
     /**
-     * Check authentication status
+     * Checks if the user is an authenticated admin or not
      */
     checkAuthStatus() {
-        const isAdmin = supabaseClient.isAdmin();
-        
-        if (isAdmin) {
-            this.isAuthenticated = true;
-            this.showDashboard();
-        } else {
+        try {
+            const isAdmin = supabaseClient.isAdmin();
+
+            if (isAdmin) {
+                this.isAuthenticated = true;
+                this.showDashboard();
+            } 
+            else {
+                this.showLogin();
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error checking admin authentication:', error);
             this.showLogin();
+            this.showToast('Error checking authentication', 'error');
         }
     }
 
     /**
-     * Setup event listeners
+     * event listeners for the admin dashboard
      */
     setupEventListeners() {
         // Login form
@@ -133,16 +137,21 @@ class AdminManager {
         this.elements.bulkDeleteBtn?.addEventListener('click', () => this.confirmBulkDelete());
         this.elements.deleteAllBtn?.addEventListener('click', () => this.confirmDeleteAll());
         
-        // Confirmation modal
+        // This releases the confirmation modals
         this.elements.confirmCancel?.addEventListener('click', () => this.hideConfirmModal());
         this.elements.confirmYes?.addEventListener('click', () => this.executeConfirmedAction());
         
-        // Close modal on escape or outside click
-        this.elements.confirmModal?.addEventListener('click', (e) => {
+        // if you click outside, the thing will close
+        try {
+            this.elements.confirmModal?.addEventListener('click', (e) => {
             if (e.target === this.elements.confirmModal) {
                 this.hideConfirmModal();
             }
-        });
+            });
+        } 
+        catch (error) {
+            console.error('❌ Error setting up confirm modal click handler:', error);
+        }
         
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
@@ -152,7 +161,7 @@ class AdminManager {
     }
 
     /**
-     * Handle login form submission
+     * login form submission
      */
     async handleLogin(e) {
         e.preventDefault();
@@ -178,17 +187,19 @@ class AdminManager {
                 this.showDashboard();
                 
                 this.showToast('Welcome back, Admin!', 'success');
-            } else {
+            } 
+            else {
                 this.showLoginError('Invalid username or password');
             }
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Login error:', error);
             this.showLoginError('Login failed. Please try again.');
         }
     }
 
     /**
-     * Handle logout
+     * logging out
      */
     handleLogout() {
         supabaseClient.setAdminSession(false);
@@ -224,7 +235,7 @@ class AdminManager {
     }
 
     /**
-     * Show admin dashboard
+     * Display the admin dashboard for authenticated users
      */
     async showDashboard() {
         if (this.elements.loginScreen) {
@@ -248,7 +259,7 @@ class AdminManager {
     }
 
     /**
-     * Load dashboard data
+     * Load the data from the database
      */
     async loadDashboardData() {
         try {
@@ -261,7 +272,8 @@ class AdminManager {
             ]);
             
             this.hideAdminLoading();
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to load dashboard data:', error);
             this.showToast('Failed to load dashboard data', 'error');
             this.hideAdminLoading();
@@ -269,7 +281,7 @@ class AdminManager {
     }
 
     /**
-     * Load all pins
+     * all the posts
      */
     async loadPins() {
         try {
@@ -277,20 +289,22 @@ class AdminManager {
             this.allPins = pins;
             this.applyFiltersAndSort();
             this.renderPins();
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to load pins:', error);
             throw error;
         }
     }
 
     /**
-     * Load statistics
+     * statistics
      */
     async loadStatistics() {
         try {
             this.stats = await supabaseClient.getPinStats();
             this.updateStatsDisplay();
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to load statistics:', error);
             // Use fallback stats
             this.stats = {
@@ -303,30 +317,46 @@ class AdminManager {
     }
 
     /**
-     * Update statistics display
+     * display for statistics
      */
     updateStatsDisplay() {
-        if (this.elements.totalPins) {
-            this.elements.totalPins.textContent = this.stats.totalPins.toString();
+        try {
+            if (this.elements.totalPins) {
+                this.elements.totalPins.textContent = this.stats.totalPins.toString();
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error updating totalPins:', error);
         }
-        
-        if (this.elements.todayPins) {
-            this.elements.todayPins.textContent = this.stats.todayPins.toString();
+
+        try {
+            if (this.elements.todayPins) {
+                this.elements.todayPins.textContent = this.stats.todayPins.toString();
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error updating todayPins:', error);
         }
-        
-        if (this.elements.uniqueAuthors) {
-            this.elements.uniqueAuthors.textContent = this.stats.uniqueAuthors.toString();
+
+        try {
+            if (this.elements.uniqueAuthors) {
+                this.elements.uniqueAuthors.textContent = this.stats.uniqueAuthors.toString();
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error updating uniqueAuthors:', error);
         }
     }
 
     /**
-     * Apply filters and sorting
+     * filters and sorting for administrator
      */
     applyFiltersAndSort() {
         let filtered = [...this.allPins];
         
         // Apply search filter
-        if (this.searchTerm) {
+        try {
+            if (this.searchTerm) {
             const term = this.searchTerm.toLowerCase();
             filtered = filtered.filter(pin => 
                 pin.title.toLowerCase().includes(term) ||
@@ -334,6 +364,10 @@ class AdminManager {
                 (pin.nickname && pin.nickname.toLowerCase().includes(term)) ||
                 (pin.rp_name && pin.rp_name.toLowerCase().includes(term))
             );
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error filtering pins:', error);
         }
         
         // Apply sorting
@@ -364,7 +398,14 @@ class AdminManager {
         // Clear existing pins
         this.elements.adminPinsList.innerHTML = '';
         
-        if (this.filteredPins.length === 0) {
+        try {
+            if (this.filteredPins.length === 0) {
+            this.showAdminEmpty();
+            return;
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error rendering pins:', error);
             this.showAdminEmpty();
             return;
         }
@@ -440,9 +481,14 @@ class AdminManager {
         
         // Add click handler for row selection
         pinDiv.addEventListener('click', (e) => {
-            if (e.target.type !== 'checkbox' && !e.target.closest('button')) {
-                checkbox.checked = !checkbox.checked;
-                this.togglePinSelection(pin.id, checkbox.checked);
+            try {
+                if (e.target.type !== 'checkbox' && !e.target.closest('button')) {
+                    checkbox.checked = !checkbox.checked;
+                    this.togglePinSelection(pin.id, checkbox.checked);
+                }
+            } 
+            catch (error) {
+                console.error('❌ Error handling pin row click:', error);
             }
         });
         
@@ -453,23 +499,39 @@ class AdminManager {
      * Toggle pin selection
      */
     togglePinSelection(pinId, selected) {
-        if (selected) {
-            this.selectedPins.add(pinId);
-        } else {
-            this.selectedPins.delete(pinId);
+        try {
+            if (selected) {
+                this.selectedPins.add(pinId);
+            } 
+            else {
+                this.selectedPins.delete(pinId);
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error updating selectedPins:', error);
         }
-        
+
         // Update visual state
-        const pinElement = document.querySelector(`[data-pin-id="${pinId}"]`);
-        if (pinElement) {
-            pinElement.classList.toggle('selected', selected);
+        try {
+            const pinElement = document.querySelector(`[data-pin-id="${pinId}"]`);
+            if (pinElement) {
+                pinElement.classList.toggle('selected', selected);
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error updating pin element selection state:', error);
         }
-        
-        this.updateSelectionUI();
+
+        try {
+            this.updateSelectionUI();
+        } 
+        catch (error) {
+            console.error('❌ Error updating selection UI:', error);
+        }
     }
 
     /**
-     * Select all pins
+     * selects all the pins
      */
     selectAllPins() {
         this.filteredPins.forEach(pin => {
@@ -490,17 +552,17 @@ class AdminManager {
     }
 
     /**
-     * Deselect all pins
+     * deselection panel
      */
     deselectAllPins() {
         this.selectedPins.clear();
         
-        // Update checkboxes
+        // checkbox update
         this.elements.adminPinsList.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
             checkbox.checked = false;
         });
         
-        // Update visual state
+        // visual state
         this.elements.adminPinsList.querySelectorAll('.admin-pin-item').forEach(item => {
             item.classList.remove('selected');
         });
@@ -514,17 +576,27 @@ class AdminManager {
     updateSelectionUI() {
         const selectedCount = this.selectedPins.size;
         
-        if (this.elements.selectedCount) {
+        try {
+            if (this.elements.selectedCount) {
             this.elements.selectedCount.textContent = selectedCount.toString();
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error updating selectedCount:', error);
         }
-        
-        if (this.elements.bulkDeleteBtn) {
+
+        try {
+            if (this.elements.bulkDeleteBtn) {
             this.elements.bulkDeleteBtn.disabled = selectedCount === 0;
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error updating bulkDeleteBtn:', error);
         }
     }
 
     /**
-     * Handle search
+     * search functionality
      */
     handleSearch(searchTerm) {
         this.searchTerm = searchTerm.trim();
@@ -533,7 +605,7 @@ class AdminManager {
     }
 
     /**
-     * Handle sort change
+     * sorting
      */
     handleSort(sortBy) {
         this.sortBy = sortBy;
@@ -542,7 +614,7 @@ class AdminManager {
     }
 
     /**
-     * Confirm delete single pin
+     * deleting a single pin
      */
     confirmDeletePin(pinId) {
         const pin = this.allPins.find(p => p.id === pinId);
@@ -570,7 +642,7 @@ class AdminManager {
     }
 
     /**
-     * Confirm delete all
+     * delete all
      */
     confirmDeleteAll() {
         const count = this.allPins.length;
@@ -584,7 +656,7 @@ class AdminManager {
     }
 
     /**
-     * Delete single pin
+     * delete one
      */
     async deletePin(pinId) {
         try {
@@ -599,7 +671,8 @@ class AdminManager {
             await this.loadStatistics();
             
             this.showToast('Pin deleted successfully', 'success');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete pin:', error);
             this.showToast('Failed to delete pin', 'error');
         }
@@ -622,7 +695,8 @@ class AdminManager {
             await this.loadStatistics();
             
             this.showToast(`${pinIds.length} pins deleted successfully`, 'success');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete pins:', error);
             this.showToast('Failed to delete selected pins', 'error');
         }
@@ -644,7 +718,8 @@ class AdminManager {
             await this.loadStatistics();
             
             this.showToast('All pins deleted successfully', 'success');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete all pins:', error);
             this.showToast('Failed to delete all pins', 'error');
         }
@@ -698,7 +773,8 @@ class AdminManager {
             try {
                 await this.pendingConfirmAction();
                 this.hideConfirmModal();
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error('❌ Error executing confirmed action:', error);
                 this.showToast(error.message || 'Action failed', 'error');
                 this.hideConfirmModal();
@@ -714,7 +790,8 @@ class AdminManager {
             this.subscription = supabaseClient.subscribeToPins((payload) => {
                 this.handleRealTimeUpdate(payload);
             });
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to setup real-time subscription:', error);
         }
     }
@@ -733,38 +810,105 @@ class AdminManager {
      * Show/hide loading states
      */
     showAdminLoading() {
-        if (this.elements.adminLoading) {
-            this.elements.adminLoading.style.display = 'block';
+        try {
+            if (this.elements.adminLoading) {
+                this.elements.adminLoading.style.display = 'block';
+            } 
+            else {
+                console.warn('adminLoading element not found');
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error showing adminLoading:', error);
         }
-        if (this.elements.adminPinsList) {
-            this.elements.adminPinsList.style.display = 'none';
+
+        try {
+            if (this.elements.adminPinsList) {
+                this.elements.adminPinsList.style.display = 'none';
+            } 
+            else {
+                console.warn('adminPinsList element not found');
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error hiding adminPinsList:', error);
         }
-        if (this.elements.adminEmpty) {
-            this.elements.adminEmpty.style.display = 'none';
+
+        try {
+            if (this.elements.adminEmpty) {
+                this.elements.adminEmpty.style.display = 'none';
+            } 
+            else {
+                console.warn('adminEmpty element not found');
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error hiding adminEmpty:', error);
         }
     }
 
     hideAdminLoading() {
-        if (this.elements.adminLoading) {
-            this.elements.adminLoading.style.display = 'none';
+        try {
+            if (this.elements.adminLoading) {
+                this.elements.adminLoading.style.display = 'none';
+            } 
+            else {
+                console.warn('adminLoading element not found');
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error hiding adminLoading:', error);
         }
-        if (this.elements.adminPinsList) {
-            this.elements.adminPinsList.style.display = 'block';
+
+        try {
+            if (this.elements.adminPinsList) {
+                this.elements.adminPinsList.style.display = 'block';
+            } 
+            else {
+                console.warn('adminPinsList element not found');
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error showing adminPinsList:', error);
         }
     }
 
     showAdminEmpty() {
-        if (this.elements.adminEmpty) {
-            this.elements.adminEmpty.style.display = 'block';
+        try {
+            if (this.elements.adminEmpty) {
+                this.elements.adminEmpty.style.display = 'block';
+            } 
+            else {
+                console.warn('adminEmpty element not found');
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error showing adminEmpty:', error);
         }
-        if (this.elements.adminPinsList) {
-            this.elements.adminPinsList.style.display = 'none';
+        try {
+            if (this.elements.adminPinsList) {
+                this.elements.adminPinsList.style.display = 'none';
+            } 
+            else {
+                console.warn('adminPinsList element not found');
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error hiding adminPinsList:', error);
         }
     }
 
     hideAdminEmpty() {
-        if (this.elements.adminEmpty) {
-            this.elements.adminEmpty.style.display = 'none';
+        try {
+            if (this.elements.adminEmpty) {
+                this.elements.adminEmpty.style.display = 'none';
+            }
+            else {
+                console.warn('adminEmpty element not found');
+            }
+        }
+        catch (error) {
+            console.error('❌ Error hiding adminEmpty:', error);
         }
     }
 
@@ -772,9 +916,17 @@ class AdminManager {
      * Show login error
      */
     showLoginError(message) {
-        if (this.elements.loginError) {
-            this.elements.loginError.textContent = message;
-            this.elements.loginError.style.display = 'block';
+        try {
+            if (this.elements.loginError) {
+                this.elements.loginError.textContent = message;
+                this.elements.loginError.style.display = 'block';
+            }
+            else {
+                console.warn('loginError element not found');
+            }
+        }
+        catch (error) {
+            console.error('❌ Error showing login error:', error);
         }
     }
 
