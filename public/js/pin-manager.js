@@ -249,7 +249,7 @@ class PinManager {
             filtered = filtered.filter(pin => 
                 pin.title.toLowerCase().includes(this.searchTerm) ||
                 pin.content.toLowerCase().includes(this.searchTerm) ||
-                pin.author.toLowerCase().includes(this.searchTerm)
+                (pin.nickname && pin.nickname.toLowerCase().includes(this.searchTerm))
             );
         }
         
@@ -323,8 +323,20 @@ class PinManager {
             throw new Error('Pin content must be 500 characters or less');
         }
         
-        if (data.author && data.author.length > 50) {
-            throw new Error('Author name must be 50 characters or less');
+        if (!data.rp_name || !data.rp_name.trim()) {
+            throw new Error('RP name is required');
+        }
+        
+        if (data.rp_name.length > 30) {
+            throw new Error('RP name must be 30 characters or less');
+        }
+        
+        if (!data.main_number || ![1, 2, 3, 4].includes(data.main_number)) {
+            throw new Error('Valid main selection (1-4) is required');
+        }
+        
+        if (data.nickname && data.nickname.length > 30) {
+            throw new Error('Nickname must be 30 characters or less');
         }
     }
 
@@ -366,18 +378,12 @@ class PinManager {
      * Handle pin insertion from real-time update
      */
     handlePinInserted(newPin) {
-        try {
-            // Check if pin already exists (avoid duplicates)
-            const existingIndex = this.pins.findIndex(pin => pin.id === newPin.id);
-            if (existingIndex === -1) {
-                this.pins.unshift(newPin);
-                this.applyFilters();
-                this.emit('pinsUpdated', this.filteredPins);
-            }
-        } 
-        catch (error) {
-            console.error('❌ Failed to handle pin insertion:', error);
-            this.emit('error', error);
+        // Check if pin already exists (avoid duplicates)
+        const existingIndex = this.pins.findIndex(pin => pin.id === newPin.id);
+        if (existingIndex === -1) {
+            this.pins.unshift(newPin);
+            this.applyFilters();
+            this.emit('pinsUpdated', this.filteredPins);
         }
     }
 
@@ -385,17 +391,11 @@ class PinManager {
      * Handle pin update from real-time update
      */
     handlePinUpdated(updatedPin) {
-        try {
-            const index = this.pins.findIndex(pin => pin.id === updatedPin.id);
-            if (index !== -1) {
-                this.pins[index] = updatedPin;
-                this.applyFilters();
-                this.emit('pinsUpdated', this.filteredPins);
-            }
-        } 
-        catch (error) {
-            console.error('❌ Failed to handle pin update:', error);
-            this.emit('error', error);
+        const index = this.pins.findIndex(pin => pin.id === updatedPin.id);
+        if (index !== -1) {
+            this.pins[index] = updatedPin;
+            this.applyFilters();
+            this.emit('pinsUpdated', this.filteredPins);
         }
     }
 
@@ -414,8 +414,7 @@ class PinManager {
     async getStats() {
         try {
             return await supabaseClient.getPinStats();
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('❌ Failed to get pin statistics:', error);
             this.emit('error', error);
             throw error;

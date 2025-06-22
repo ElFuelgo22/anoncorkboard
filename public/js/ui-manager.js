@@ -65,7 +65,9 @@ class UIManager {
             pinForm: document.getElementById('pin-form'),
             pinTitle: document.getElementById('pin-title'),
             pinContent: document.getElementById('pin-content'),
-            pinAuthor: document.getElementById('pin-author'),
+            pinNickname: document.getElementById('pin-nickname'),
+            pinRpName: document.getElementById('pin-rp-name'),
+            pinMain: document.getElementById('pin-main'),
             cancelBtn: document.getElementById('cancel-btn'),
             submitBtn: document.getElementById('submit-btn'),
             
@@ -146,7 +148,8 @@ class UIManager {
         const fields = [
             { element: this.elements.pinTitle, maxLength: 100 },
             { element: this.elements.pinContent, maxLength: 500 },
-            { element: this.elements.pinAuthor, maxLength: 50 }
+            { element: this.elements.pinNickname, maxLength: 30 },
+            { element: this.elements.pinRpName, maxLength: 30 }
         ];
 
         fields.forEach(({ element, maxLength }) => {
@@ -257,7 +260,7 @@ class UIManager {
             <div class="pin-footer">
                 <span class="pin-author">
                     <i class="fas fa-user"></i>
-                    ${this.escapeHtml(pin.author || 'Anonymous')}
+                    ${this.escapeHtml(pin.nickname || 'Anonymous')}
                 </span>
                 <span class="pin-date">
                     <i class="fas fa-clock"></i>
@@ -332,7 +335,9 @@ class UIManager {
         // Populate form with existing data
         this.elements.pinTitle.value = pin.title;
         this.elements.pinContent.value = pin.content;
-        this.elements.pinAuthor.value = pin.author || '';
+        this.elements.pinNickname.value = pin.nickname || '';
+        this.elements.pinRpName.value = pin.rp_name || '';
+        this.elements.pinMain.value = pin.main_number || '';
         
         // Update character counters
         this.updateCharacterCounters();
@@ -404,7 +409,8 @@ class UIManager {
         const fields = [
             { element: this.elements.pinTitle, maxLength: 100 },
             { element: this.elements.pinContent, maxLength: 500 },
-            { element: this.elements.pinAuthor, maxLength: 50 }
+            { element: this.elements.pinNickname, maxLength: 30 },
+            { element: this.elements.pinRpName, maxLength: 30 }
         ];
 
         fields.forEach(({ element, maxLength }) => {
@@ -435,7 +441,9 @@ class UIManager {
         const pinData = {
             title: formData.get('title')?.trim() || '',
             content: formData.get('content')?.trim() || '',
-            author: formData.get('author')?.trim() || ''
+            nickname: formData.get('nickname')?.trim() || 'Anonymous',
+            rp_name: formData.get('rp_name')?.trim() || '',
+            main_number: parseInt(formData.get('main_number')) || null
         };
         
         // Client-side validation
@@ -501,10 +509,28 @@ class UIManager {
             isValid = false;
         }
         
-        // Validate author (optional but has limit)
-        if (data.author && data.author.length > 50) {
-            this.elements.pinAuthor.classList.add('error');
-            this.showToast('Author name must be 50 characters or less', 'error');
+        // Validate RP name
+        if (!data.rp_name) {
+            this.elements.pinRpName.classList.add('error');
+            this.showToast('RP name is required', 'error');
+            isValid = false;
+        } else if (data.rp_name.length > 30) {
+            this.elements.pinRpName.classList.add('error');
+            this.showToast('RP name must be 30 characters or less', 'error');
+            isValid = false;
+        }
+        
+        // Validate main selection
+        if (!data.main_number) {
+            this.elements.pinMain.classList.add('error');
+            this.showToast('Main selection is required', 'error');
+            isValid = false;
+        }
+        
+        // Validate nickname length
+        if (data.nickname && data.nickname.length > 30) {
+            this.elements.pinNickname.classList.add('error');
+            this.showToast('Nickname must be 30 characters or less', 'error');
             isValid = false;
         }
         

@@ -527,7 +527,8 @@ body {
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
     width: 100%;
     padding: var(--spacing-sm) var(--spacing-md);
     border: 2px solid rgba(255, 255, 255, 0.3);
@@ -539,8 +540,14 @@ body {
     resize: vertical;
 }
 
+.form-group select {
+    cursor: pointer;
+    resize: none;
+}
+
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus {
     outline: none;
     border-color: var(--sunset-orange);
     box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);

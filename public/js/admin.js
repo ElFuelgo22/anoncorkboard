@@ -1,3 +1,8 @@
+/**
+ * Admin Dashboard Module
+ * Handles admin authentication, pin management, and bulk operations
+ */
+
 import supabaseClient from './supabase-client.js';
 
 class AdminManager {
@@ -38,8 +43,7 @@ class AdminManager {
             this.setupEventListeners();
             
             console.log('✅ Admin Dashboard initialized');
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('❌ Failed to initialize Admin Dashboard:', error);
             this.showToast('Failed to initialize admin dashboard', 'error');
         }
@@ -177,8 +181,7 @@ class AdminManager {
             } else {
                 this.showLoginError('Invalid username or password');
             }
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('❌ Login error:', error);
             this.showLoginError('Login failed. Please try again.');
         }
@@ -199,107 +202,49 @@ class AdminManager {
      * Show login screen
      */
     showLogin() {
-        try {
-            if (this.elements.loginScreen) {
-                this.elements.loginScreen.style.display = 'flex';
-            }
-        } 
-        catch (error) {
-            console.error('❌ Error displaying login screen:', error);
+        if (this.elements.loginScreen) {
+            this.elements.loginScreen.style.display = 'flex';
         }
         
-        try {
-            if (this.elements.adminDashboard) {
-                this.elements.adminDashboard.style.display = 'none';
-            }
-        } 
-        catch (error) {
-            console.error('❌ Error hiding admin dashboard:', error);
+        if (this.elements.adminDashboard) {
+            this.elements.adminDashboard.style.display = 'none';
         }
         
-        try {
-            // Clear login form
-            if (this.elements.loginForm) {
-                this.elements.loginForm.reset();
-            }
-        } 
-        catch (error) {
-            console.error('❌ Error resetting login form:', error);
+        // Clear login form
+        if (this.elements.loginForm) {
+            this.elements.loginForm.reset();
         }
         
-        try {
-            this.hideLoginError();
-        } 
-        catch (error) {
-            console.error('❌ Error hiding login error:', error);
-        }
+        this.hideLoginError();
         
-        try {
-            // Focus username field
-            setTimeout(() => {
-                try {
-                    if (this.elements.usernameInput) {
-                        this.elements.usernameInput.focus();
-                    }
-                } catch (error) {
-                    console.error('❌ Error focusing username input:', error);
-                }
-            }, 100);
-        } 
-        catch (error) {
-            console.error('❌ Error setting timeout for focus:', error);
-        }
+        // Focus username field
+        setTimeout(() => {
+            this.elements.usernameInput?.focus();
+        }, 100);
     }
 
     /**
      * Show admin dashboard
      */
     async showDashboard() {
-        try {
-            if (this.elements.loginScreen) {
-                this.elements.loginScreen.style.display = 'none';
-            }
-        } 
-        catch (error) {
-            console.error('❌ Error hiding login screen:', error);
+        if (this.elements.loginScreen) {
+            this.elements.loginScreen.style.display = 'none';
         }
         
-        try {
-            if (this.elements.adminDashboard) {
-                this.elements.adminDashboard.style.display = 'block';
-            }
-        } 
-        catch (error) {
-            console.error('❌ Error displaying admin dashboard:', error);
+        if (this.elements.adminDashboard) {
+            this.elements.adminDashboard.style.display = 'block';
         }
         
-        try {
-            // Set admin name
-            if (this.elements.adminName) {
-                this.elements.adminName.textContent = 'RenZion';
-            }
-        } 
-        catch (error) {
-            console.error('❌ Error setting admin name:', error);
+        // Set admin name
+        if (this.elements.adminName) {
+            this.elements.adminName.textContent = 'RenZion';
         }
         
-        try {
-            // Admin Dashboards
-            await this.loadDashboardData();
-        } 
-        catch (error) {
-            console.error('❌ Error loading dashboard data:', error);
-            this.showToast('Failed to load dashboard data', 'error');
-        }
+        // Load dashboard data
+        await this.loadDashboardData();
         
-        try {
-            // real time subscription setup
-            this.setupRealTimeSubscription();
-        } 
-        catch (error) {
-            console.error('❌ Error setting up real-time subscription:', error);
-            this.showToast('Failed to set up real-time updates', 'error');
-        }
+        // Setup real-time subscription
+        this.setupRealTimeSubscription();
     }
 
     /**
@@ -332,8 +277,7 @@ class AdminManager {
             this.allPins = pins;
             this.applyFiltersAndSort();
             this.renderPins();
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('❌ Failed to load pins:', error);
             throw error;
         }
@@ -346,8 +290,7 @@ class AdminManager {
         try {
             this.stats = await supabaseClient.getPinStats();
             this.updateStatsDisplay();
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('❌ Failed to load statistics:', error);
             // Use fallback stats
             this.stats = {
@@ -363,31 +306,16 @@ class AdminManager {
      * Update statistics display
      */
     updateStatsDisplay() {
-        try {
-            if (this.elements.totalPins) {
-                this.elements.totalPins.textContent = this.stats.totalPins.toString();
-            }
-        } 
-        catch (error) {
-            console.error('❌ Error updating total pins display:', error);
+        if (this.elements.totalPins) {
+            this.elements.totalPins.textContent = this.stats.totalPins.toString();
         }
         
-        try {
-            if (this.elements.todayPins) {
-                this.elements.todayPins.textContent = this.stats.todayPins.toString();
-            }
-        } 
-        catch (error) {
-            console.error('❌ Error updating today pins display:', error);
+        if (this.elements.todayPins) {
+            this.elements.todayPins.textContent = this.stats.todayPins.toString();
         }
         
-        try {
-            if (this.elements.uniqueAuthors) {
-                this.elements.uniqueAuthors.textContent = this.stats.uniqueAuthors.toString();
-            }
-        } 
-        catch (error) {
-            console.error('❌ Error updating unique authors display:', error);
+        if (this.elements.uniqueAuthors) {
+            this.elements.uniqueAuthors.textContent = this.stats.uniqueAuthors.toString();
         }
     }
 
@@ -403,7 +331,8 @@ class AdminManager {
             filtered = filtered.filter(pin => 
                 pin.title.toLowerCase().includes(term) ||
                 pin.content.toLowerCase().includes(term) ||
-                pin.author.toLowerCase().includes(term)
+                (pin.nickname && pin.nickname.toLowerCase().includes(term)) ||
+                (pin.rp_name && pin.rp_name.toLowerCase().includes(term))
             );
         }
         
@@ -417,7 +346,7 @@ class AdminManager {
                 case 'title':
                     return a.title.localeCompare(b.title);
                 case 'author':
-                    return a.author.localeCompare(b.author);
+                    return a.rp_name.localeCompare(b.rp_name);
                 default:
                     return new Date(b.created_at) - new Date(a.created_at);
             }
@@ -474,7 +403,7 @@ class AdminManager {
                     <div class="admin-pin-meta">
                         <span class="admin-pin-author">
                             <i class="fas fa-user"></i>
-                            ${this.escapeHtml(pin.author || 'Anonymous')}
+                            RP: ${this.escapeHtml(pin.rp_name)} | Main ${pin.main_number} | Nick: ${this.escapeHtml(pin.nickname || 'Anonymous')}
                         </span>
                         <span class="admin-pin-date">
                             <i class="fas fa-calendar"></i>
@@ -526,8 +455,7 @@ class AdminManager {
     togglePinSelection(pinId, selected) {
         if (selected) {
             this.selectedPins.add(pinId);
-        } 
-        else {
+        } else {
             this.selectedPins.delete(pinId);
         }
         
@@ -671,8 +599,7 @@ class AdminManager {
             await this.loadStatistics();
             
             this.showToast('Pin deleted successfully', 'success');
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('❌ Failed to delete pin:', error);
             this.showToast('Failed to delete pin', 'error');
         }
@@ -695,8 +622,7 @@ class AdminManager {
             await this.loadStatistics();
             
             this.showToast(`${pinIds.length} pins deleted successfully`, 'success');
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('❌ Failed to delete pins:', error);
             this.showToast('Failed to delete selected pins', 'error');
         }
@@ -718,8 +644,7 @@ class AdminManager {
             await this.loadStatistics();
             
             this.showToast('All pins deleted successfully', 'success');
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('❌ Failed to delete all pins:', error);
             this.showToast('Failed to delete all pins', 'error');
         }
@@ -773,8 +698,7 @@ class AdminManager {
             try {
                 await this.pendingConfirmAction();
                 this.hideConfirmModal();
-            } 
-            catch (error) {
+            } catch (error) {
                 console.error('❌ Error executing confirmed action:', error);
                 this.showToast(error.message || 'Action failed', 'error');
                 this.hideConfirmModal();
@@ -790,8 +714,7 @@ class AdminManager {
             this.subscription = supabaseClient.subscribeToPins((payload) => {
                 this.handleRealTimeUpdate(payload);
             });
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('❌ Failed to setup real-time subscription:', error);
         }
     }

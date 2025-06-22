@@ -93,13 +93,21 @@
 }
 
 .admin-header {
-    background: linear-gradient(135deg, var(--sunset-purple), var(--sunset-deep-purple));
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.428);
+    border-bottom: 1px solid rgba(152, 151, 151, 0.2);
     padding: var(--spacing-lg) 0;
     position: sticky;
     top: 0;
     z-index: 100;
     backdrop-filter: blur(10px);
+}
+
+/* Make admin-header buttons opaque */
+.admin-header .btn,
+.admin-header button {
+    background: var(--sunset-coral);
+    color: #fff;
+    opacity: 1;
 }
 
 .admin-header .container {
@@ -298,7 +306,7 @@
     display: flex;
     gap: var(--spacing-lg);
     font-size: var(--font-size-sm);
-    color: var(--text-secondary);
+    color: #ffffff;
 }
 
 .admin-pin-author,
@@ -350,7 +358,7 @@
 
 .admin-pin-content {
     margin-bottom: var(--spacing-md);
-    color: var(--text-secondary);
+    color: #ffffff;
     line-height: 1.5;
     word-wrap: break-word;
 }

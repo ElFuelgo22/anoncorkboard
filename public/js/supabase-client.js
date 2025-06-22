@@ -139,7 +139,9 @@ class SupabaseClient {
             const pin = {
                 title: pinData.title.trim(),
                 content: pinData.content.trim(),
-                author: pinData.author ? pinData.author.trim() : 'Anonymous',
+                nickname: pinData.nickname ? pinData.nickname.trim() : 'Anonymous',
+                rp_name: pinData.rp_name.trim(),
+                main_number: pinData.main_number,
                 author_id: this.generateAuthorId(),
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString()
