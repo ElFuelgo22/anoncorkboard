@@ -41,7 +41,8 @@ class SupabaseClient {
             console.log('✅ Supabase client initialized successfully');
             
             return true;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to initialize Supabase client:', error);
             throw error;
         }
@@ -61,12 +62,14 @@ class SupabaseClient {
                 // Table doesn't exist, which is expected on first run
                 console.log('ℹ️ Pins table not found - needs to be created');
                 return true;
-            } else if (error) {
+            } 
+            else if (error) {
                 throw error;
             }
             
             return true;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Supabase connection test failed:', error);
             throw new Error(`Database connection failed: ${error.message}`);
         }
@@ -100,7 +103,8 @@ class SupabaseClient {
             
             console.log('✅ Pins table ready');
             return true;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to create pins table:', error);
             throw error;
         }
@@ -123,7 +127,8 @@ class SupabaseClient {
             }
             
             return data || [];
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to fetch pins:', error);
             throw new Error(`Failed to load pins: ${error.message}`);
         }
@@ -159,7 +164,8 @@ async createPin(pinData) {
         
         console.log('✅ Pin created successfully:', data.id);
         return data;
-    } catch (error) {
+    } 
+    catch (error) {
         console.error('❌ Failed to create pin:', error);
         throw new Error(`Failed to create pin: ${error.message}`);
     }
@@ -206,7 +212,8 @@ async createPin(pinData) {
             
             console.log('✅ Pin updated successfully:', pinId);
             return data;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to update pin:', error);
             throw new Error(`Failed to update pin: ${error.message}`);
         }
@@ -237,7 +244,8 @@ async createPin(pinData) {
             
             console.log('✅ Pin deleted successfully:', pinId);
             return true;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete pin:', error);
             throw new Error(`Failed to delete pin: ${error.message}`);
         }
@@ -265,7 +273,8 @@ async createPin(pinData) {
             
             console.log('✅ Pins deleted successfully:', pinIds.length);
             return true;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete pins:', error);
             throw new Error(`Failed to delete pins: ${error.message}`);
         }
@@ -351,7 +360,8 @@ async createPin(pinData) {
                 todayPins: todayPins || 0,
                 uniqueAuthors
             };
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to get pin statistics:', error);
             throw new Error(`Failed to get statistics: ${error.message}`);
         }
@@ -377,7 +387,8 @@ async createPin(pinData) {
             
             console.log('📡 Subscribed to real-time pin updates');
             return subscription;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to subscribe to pin updates:', error);
             return null;
         }
@@ -449,7 +460,8 @@ async createPin(pinData) {
         for (let i = 0; i <= maxRetries; i++) {
             try {
                 return await operation();
-            } catch (error) {
+            } 
+            catch (error) {
                 lastError = error;
                 
                 if (i < maxRetries) {

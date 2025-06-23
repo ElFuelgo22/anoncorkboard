@@ -40,7 +40,8 @@ class PinManager {
             
             console.log('✅ Pin Manager initialized successfully');
             return true;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to initialize Pin Manager:', error);
             this.emit('error', error);
             throw error;
@@ -62,7 +63,8 @@ class PinManager {
             this.emit('pinsUpdated', this.filteredPins);
             
             return pins;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to load pins:', error);
             this.emit('error', error);
             throw error;
@@ -127,7 +129,8 @@ class PinManager {
             this.emit('pinsUpdated', this.filteredPins);
             
             return updatedPin;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to update pin:', error);
             this.emit('error', error);
             throw error;
@@ -156,7 +159,8 @@ class PinManager {
             this.emit('pinsUpdated', this.filteredPins);
             
             return true;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete pin:', error);
             this.emit('error', error);
             throw error;
@@ -185,7 +189,8 @@ class PinManager {
             this.emit('pinsUpdated', this.filteredPins);
             
             return true;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete pins:', error);
             this.emit('error', error);
             throw error;
@@ -214,7 +219,8 @@ class PinManager {
             this.emit('pinsUpdated', this.filteredPins);
             
             return true;
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to delete all pins:', error);
             this.emit('error', error);
             throw error;
@@ -305,44 +311,108 @@ class PinManager {
     }
 
     /**
-     * Validate pin data
+     * validating the data for create / update pinning
      */
     validatePinData(data) {
-        if (!data.title || !data.title.trim()) {
-            throw new Error('Pin title is required');
+        try {
+            if (!data.title || !data.title.trim()) {
+                throw new Error('Pin title is required');
+            } 
+            else {
+                // Title exists and is not just whitespace
+            }
+        } 
+        catch (error) {
+            throw error;
         }
-        
-        if (!data.content || !data.content.trim()) {
-            throw new Error('Pin content is required');
+
+        try {
+            if (!data.content || !data.content.trim()) {
+                throw new Error('Pin content is required');
+            } 
+            else {
+                // Content exists and is not just whitespace
+            }
+        } 
+        catch (error) {
+            throw error;
         }
-        
-        if (data.title.length > 100) {
-            throw new Error('Pin title must be 100 characters or less');
+
+        try {
+            if (data.title.length > 100) {
+                throw new Error('Pin title must be 100 characters or less');
+            } 
+            else {
+                // Title length is valid
+            }
+        } 
+        catch (error) {
+            throw error;
         }
-        
-        if (data.content.length > 500) {
-            throw new Error('Pin content must be 500 characters or less');
+
+        try {
+            if (data.content.length > 500) {
+                throw new Error('Pin content must be 500 characters or less');
+            }
+             else {
+                // Content length is valid
+            }
+        } 
+        catch (error) {
+            throw error;
         }
-        
-        if (!data.rp_name || !data.rp_name.trim()) {
-            throw new Error('RP name is required');
+
+        try {
+            if (!data.rp_name || !data.rp_name.trim()) {
+                throw new Error('RP name is required');
+            } 
+            else {
+                // RP name exists and is not just whitespace
+            }
+        } 
+        catch (error) {
+            throw error;
         }
-        
-        if (data.rp_name.length > 30) {
-            throw new Error('RP name must be 30 characters or less');
+
+        try {
+            if (data.rp_name.length > 30) {
+                throw new Error('RP name must be 30 characters or less');
+            } 
+            else {
+                // RP name length is valid
+            }
+        } 
+        catch (error) {
+            throw error;
         }
-        
-        if (!data.main_number || ![1, 2, 3, 4, 5].includes(data.main_number)) {
-            throw new Error('Valid main selection (1-4 + Council) is required');
+
+        try {
+            if (!data.main_number || ![1, 2, 3, 4].includes(data.main_number)) {
+                throw new Error('Valid main selection (1-4) is required');
+            } 
+            else {
+                // Main number is valid
+            }
+        } 
+        catch (error) {
+            throw error;
         }
-        
-        if (data.nickname && data.nickname.length > 30) {
-            throw new Error('Nickname must be 30 characters or less');
+
+        try {
+            if (data.nickname && data.nickname.length > 30) {
+                throw new Error('Nickname must be 30 characters or less');
+            } 
+            else {
+                // Nickname is valid or not present
+            }
+        } 
+        catch (error) {
+            throw error;
         }
     }
 
     /**
-     * Setup real-time subscription for pin updates
+     * real time updates for the pins. Whenever someone creates, this can be called locally
      */
     setupRealTimeSubscription() {
         try {
@@ -351,7 +421,8 @@ class PinManager {
             });
             
             console.log('📡 Real-time subscription established');
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to setup real-time subscription:', error);
         }
     }
@@ -376,37 +447,59 @@ class PinManager {
     }
 
     /**
-     * Handle pin insertion from real-time update
+     * inserts pin for each real time update
      */
     handlePinInserted(newPin) {
-        // Check if pin already exists (avoid duplicates)
-        const existingIndex = this.pins.findIndex(pin => pin.id === newPin.id);
-        if (existingIndex === -1) {
-            this.pins.unshift(newPin);
-            this.applyFilters();
-            this.emit('pinsUpdated', this.filteredPins);
+        try {
+            // if pin exists, don't add it
+            const existingIndex = this.pins.findIndex(pin => pin.id === newPin.id);
+            if (existingIndex === -1) {
+                this.pins.unshift(newPin);
+                this.applyFilters();
+                this.emit('pinsUpdated', this.filteredPins);
+            } 
+            else {
+                // Pin already exists, optionally update or ignore
+                // For now, do nothing
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error in handlePinInserted:', error);
+            this.emit('error', error);
         }
     }
 
     /**
-     * Handle pin update from real-time update
+     * update pin from real time update
      */
     handlePinUpdated(updatedPin) {
         const index = this.pins.findIndex(pin => pin.id === updatedPin.id);
-        if (index !== -1) {
+        try {
+            if (index !== -1) {
             this.pins[index] = updatedPin;
             this.applyFilters();
             this.emit('pinsUpdated', this.filteredPins);
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error in handlePinUpdated:', error);
+            this.emit('error', error);
         }
     }
 
     /**
-     * Handle pin deletion from real-time update
+     * if a pin is deleted, it gets deleted too in real time
      */
     handlePinDeleted(deletedPin) {
-        this.pins = this.pins.filter(pin => pin.id !== deletedPin.id);
-        this.applyFilters();
-        this.emit('pinsUpdated', this.filteredPins);
+        try {
+            this.pins = this.pins.filter(pin => pin.id !== deletedPin.id);
+            this.applyFilters();
+            this.emit('pinsUpdated', this.filteredPins);
+        } 
+        catch (error) {
+            console.error('❌ Error in handlePinDeleted:', error);
+            this.emit('error', error);
+        }
     }
 
     /**
@@ -415,7 +508,8 @@ class PinManager {
     async getStats() {
         try {
             return await supabaseClient.getPinStats();
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('❌ Failed to get pin statistics:', error);
             this.emit('error', error);
             throw error;
@@ -445,7 +539,8 @@ class PinManager {
             this.listeners[event].forEach(callback => {
                 try {
                     callback(data);
-                } catch (error) {
+                } 
+                catch (error) {
                     console.error('❌ Error in event listener:', error);
                 }
             });
@@ -453,7 +548,7 @@ class PinManager {
     }
 
     /**
-     * Cleanup resources
+     * resource management
      */
     destroy() {
         if (this.subscription) {

@@ -357,13 +357,13 @@ class AdminManager {
         // Apply search filter
         try {
             if (this.searchTerm) {
-            const term = this.searchTerm.toLowerCase();
-            filtered = filtered.filter(pin => 
-                pin.title.toLowerCase().includes(term) ||
-                pin.content.toLowerCase().includes(term) ||
-                (pin.nickname && pin.nickname.toLowerCase().includes(term)) ||
-                (pin.rp_name && pin.rp_name.toLowerCase().includes(term))
-            );
+                const term = this.searchTerm.toLowerCase();
+                filtered = filtered.filter(pin => 
+                    pin.title.toLowerCase().includes(term) ||
+                    pin.content.toLowerCase().includes(term) ||
+                    (pin.nickname && pin.nickname.toLowerCase().includes(term)) ||
+                    (pin.rp_name && pin.rp_name.toLowerCase().includes(term))
+                );
             }
         } 
         catch (error) {
@@ -729,16 +729,21 @@ class AdminManager {
      * Show confirmation modal
      */
     showConfirmModal(title, message, confirmAction) {
-        if (!this.elements.confirmModal) return;
-        
-        this.pendingConfirmAction = confirmAction;
-        
-        if (this.elements.confirmTitle) {
+        try {
+            if (!this.elements.confirmModal) return;
+
+            this.pendingConfirmAction = confirmAction;
+
+            if (this.elements.confirmTitle) {
             this.elements.confirmTitle.textContent = title;
-        }
-        
-        if (this.elements.confirmMessage) {
+            }
+
+            if (this.elements.confirmMessage) {
             this.elements.confirmMessage.textContent = message;
+            }
+        } 
+        catch (error) {
+            console.error('❌ Error showing confirmation modal:', error);
         }
         
         this.elements.confirmModal.style.display = 'block';

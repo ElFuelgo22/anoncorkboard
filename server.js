@@ -21,22 +21,42 @@ app.get('/api/config', (req, res) => {
 
 // Serve main page
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    try {
+        res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    } 
+    catch (err) {
+        res.status(500).send('Error loading main page');
+    }
 });
 
 // Serve admin page
 app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+    try {
+        res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+    } 
+    catch (err) {
+        res.status(500).send('Error loading admin page');
+    }
 });
 
 // Serve setup page
 app.get('/setup', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'setup.html'));
+    try {
+        res.sendFile(path.join(__dirname, 'public', 'setup.html'));
+    } 
+    catch (err) {
+        res.status(500).send('Error loading setup page');
+    }
 });
 
 // Handle 404s
 app.use((req, res) => {
-    res.status(404).send('Page not found');
+    try {
+        res.status(404).send('Page not found');
+    } 
+    catch (err) {
+        res.status(500).send('Error handling 404');
+    }
 });
 
 app.listen(PORT, '0.0.0.0', () => {

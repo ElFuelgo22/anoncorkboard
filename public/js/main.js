@@ -100,24 +100,50 @@ class maincorkboard {
         
         // Listen to pin manager events
         pinManager.on('pinsUpdated', (pins) => {
-            uiManager.renderPins(pins);
+            try {
+                uiManager.renderPins(pins);
+            } 
+            catch (error) {
+                console.error('❌ Error rendering pins:', error);
+                uiManager.showToast('Failed to render pins', 'error');
+            }
         });
-        
+
         pinManager.on('pinCreated', (pin) => {
-            console.log('📌 New pin created:', pin.title);
+            try {
+                console.log('📌 New pin created:', pin.title);
+            } 
+            catch (error) {
+                console.error('❌ Error handling pinCreated:', error);
+            }
         });
-        
+
         pinManager.on('pinUpdated', (pin) => {
-            console.log('✏️ Pin updated:', pin.title);
+            try {
+                console.log('✏️ Pin updated:', pin.title);
+            } 
+            catch (error) {
+                console.error('❌ Error handling pinUpdated:', error);
+            }
         });
-        
+
         pinManager.on('pinDeleted', (pinId) => {
-            console.log('🗑️ Pin deleted:', pinId);
+            try {
+                console.log('🗑️ Pin deleted:', pinId);
+            } 
+            catch (error) {
+                console.error('❌ Error handling pinDeleted:', error);
+            }
         });
-        
+
         pinManager.on('error', (error) => {
-            console.error('📌 Pin Manager error:', error);
-            uiManager.showToast(error.message || 'An error occurred', 'error');
+            try {
+                console.error('📌 Pin Manager error:', error);
+                uiManager.showToast(error.message || 'An error occurred', 'error');
+            } 
+            catch (err) {
+                console.error('❌ Error handling pinManager error event:', err);
+            }
         });
         
         // Handle page visibility changes (for real-time updates)
@@ -147,26 +173,32 @@ class maincorkboard {
         console.log('✅ Event listeners configured');
     }
 
-    /**
-     * Setup global error handling
-     */
     setupErrorHandling() {
-        // Handle unhandled promise rejections
+        // rejected handling
         window.addEventListener('unhandledrejection', (event) => {
-            console.error('❌ Unhandled promise rejection:', event.reason);
-            uiManager.showToast('An unexpected error occurred', 'error');
-            
-            // Prevent the default browser error handling
+            try {
+                console.error('❌ Unhandled promise rejection:', event.reason);
+                uiManager.showToast('An unexpected error occurred', 'error');
+            } 
+            catch (err) {
+                console.error('❌ Error handling unhandledrejection:', err);
+            }
+            // no default ing allowed
             event.preventDefault();
         });
         
-        // Handle global errors
+        // global error
         window.addEventListener('error', (event) => {
             console.error('❌ Global error:', event.error);
             
-            // Don't show toast for every script error to avoid spam
-            if (event.error && event.error.message) {
-                console.error('Script error:', event.error.message);
+            // no you
+            try {
+                if (event.error && event.error.message) {
+                    console.error('Script error:', event.error.message);
+                }
+            } 
+            catch (err) {
+                console.error('❌ Error handling global error event:', err);
             }
         });
         
@@ -174,14 +206,14 @@ class maincorkboard {
     }
 
     /**
-     * Show initial loading state
+     * initial loading state
      */
     showInitialLoading() {
         uiManager.showLoading();
     }
 
     /**
-     * Handle initialization errors
+     * initialization problems
      */
     handleInitializationError(error) {
         console.error('🚨 Application initialization failed:', error);
@@ -190,14 +222,19 @@ class maincorkboard {
         uiManager.showError(error);
         
         // Offer retry if not exceeded max attempts
-        if (this.retryCount < this.maxRetries) {
-            setTimeout(() => {
-                this.retryInitialization();
-            }, 2000);
+        try {
+            if (this.retryCount < this.maxRetries) {
+                setTimeout(() => {
+                    this.retryInitialization();
+                }, 2000);
+            } 
+            else {
+                console.error('🚨 Max retry attempts exceeded');
+                uiManager.showToast('Failed to initialize application. Please refresh the page.', 'error', 10000);
+            }
         } 
-        else {
-            console.error('🚨 Max retry attempts exceeded');
-            uiManager.showToast('Failed to initialize application. Please refresh the page.', 'error', 10000);
+        catch (err) {
+            console.error('❌ Error during retry logic:', err);
         }
     }
 
@@ -270,15 +307,24 @@ class maincorkboard {
         const hasVisited = localStorage.getItem('sunset_corkboard_visited');
         
         if (!hasVisited) {
-            setTimeout(() => {
-                uiManager.showToast(
-                    'Welcome to our anon corkboard! Happy 2nd Monthsary! 🎉\n\n' +
-                    'Have a great time!',
-                    6000
-                );
-                
-                localStorage.setItem('sunset_corkboard_visited', 'true');
-            }, 1000);
+            try {
+                setTimeout(() => {
+                    try {
+                        uiManager.showToast(
+                            'Welcome to our anon corkboard! Happy 2nd Monthsary! 🎉\n\n' +
+                            'Have a great time!',
+                            6000
+                        );
+                        localStorage.setItem('sunset_corkboard_visited', 'true');
+                    } 
+                    catch (err) {
+                        console.error('❌ Error showing welcome toast:', err);
+                    }
+                }, 1000);
+            } 
+            catch (error) {
+                console.error('❌ Error in showWelcomeMessage:', error);
+            }
         }
     }
 
