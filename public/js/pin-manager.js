@@ -459,7 +459,7 @@ class PinManager {
             } 
             else {
                 // Pin already exists, optionally update or ignore
-                // For now, do nothing
+                // For now, do nothing, but ima fix this stupido ass corkboard soon
             }
         } 
         catch (error) {
