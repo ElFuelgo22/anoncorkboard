@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunset Corkboard - Share Your Thoughts</title>
+    <title>Gazelvouer Academy</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -52,14 +52,14 @@
             <!-- Loading State -->
             <div id="loading" class="loading">
                 <div class="sunset-spinner"></div>
-                <p>Loading beautiful memories...</p>
+                <p>Loading</p>
             </div>
 
             <!-- Error State -->
             <div id="error-state" class="error-state" style="display: none;">
                 <i class="fas fa-exclamation-triangle"></i>
                 <h3>Database Setup Required</h3>
-                <p id="error-message">Your corkboard needs to be set up first.</p>
+                <p id="error-message">The corkboard neets to be set up first. Check administrator for more info.</p>
                 <a href="/setup" class="btn btn-primary">Complete Setup</a>
                 <button id="retry-btn" class="btn btn-secondary">Try Again</button>
             </div>
@@ -67,9 +67,9 @@
             <!-- Empty State -->
             <div id="empty-state" class="empty-state" style="display: none;">
                 <i class="fas fa-thumbtack"></i>
-                <h3>No pins yet</h3>
-                <p>Be the first to share a beautiful memory on our sunset corkboard!</p>
-                <button id="empty-add-pin" class="btn btn-primary">Add First Pin</button>
+                <h3>No pins submitted</h3>
+                <p>Be the first to post!</p>
+                <button id="empty-add-pin" class="btn btn-primary">Create the first pin</button>
             </div>
 
             <!-- Pins Grid -->

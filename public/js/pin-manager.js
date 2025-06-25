@@ -1,6 +1,5 @@
 /**
- * Pin Manager Module
- * Handles all pin-related operations and business logic
+ * all the logic for the pins and pin management
  */
 
 import supabaseClient from './supabase-client.js';

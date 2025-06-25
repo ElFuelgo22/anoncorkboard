@@ -1,6 +1,5 @@
 /**
- * Supabase Client Module
- * Handles connection to Supabase and provides database operations
+ * Connection to supabase backend
  */
 
 class SupabaseClient {
@@ -446,7 +445,8 @@ async createPin(pinData) {
     setAdminSession(isAdmin) {
         if (isAdmin) {
             localStorage.setItem('sunset_corkboard_admin', 'true');
-        } else {
+        } 
+        else {
             localStorage.removeItem('sunset_corkboard_admin');
         }
     }
